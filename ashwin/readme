@@ -1,0 +1,20 @@
+first run:
+
+
+python3 run.py --data_root ../testing/train_images_small.npy --mask_root ../testing/mask_file_small.npy --gpu 5 --mask_mode 0 --target_size 256
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
