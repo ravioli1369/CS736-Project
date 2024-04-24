@@ -1,0 +1,1 @@
+This model was trained for masks containing 1 hole with hole ratio 8. All images were used to train the model with 1 mask corresponding to each image.
