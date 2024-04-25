@@ -69,13 +69,13 @@ class RFRNetModel():
                     s_time = time.time()
                     self.l1_loss_val = 0.0
                 
-                if self.iter % 40000 == 0:
+                if (self.iter % 10000 == 0) | ((self.iter % 1000 == 0) & (self.iter <= 10000)):
                     if not os.path.exists('{:s}'.format(save_path)):
                         os.makedirs('{:s}'.format(save_path))
                     save_ckpt('{:s}/g_{:d}.pth'.format(save_path, self.iter ), [('generator', self.G)], [('optimizer_G', self.optm_G)], self.iter)
         if not os.path.exists('{:s}'.format(save_path)):
             os.makedirs('{:s}'.format(save_path))
-            save_ckpt('{:s}/g_{:s}.pth'.format(save_path, "final"), [('generator', self.G)], [('optimizer_G', self.optm_G)], self.iter)
+        save_ckpt('{:s}/g_{:s}.pth'.format(save_path, "final"), [('generator', self.G)], [('optimizer_G', self.optm_G)], self.iter)
     def test(self, test_loader, result_save_path):
         self.G.eval()
         for para in self.G.parameters():
