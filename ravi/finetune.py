@@ -1,7 +1,7 @@
 import os
 from glob import glob
 
-models = glob("checkpoint/model2/*.pth")
+models = glob("checkpoint/model4/*.pth")
 for (i, model) in enumerate(models):
     print(model.split("/")[-1], f"{i}/{len(models)}")
     num_iters = int(model.split("_")[-1].split(".")[0])
