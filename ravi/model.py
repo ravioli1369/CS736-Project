@@ -77,7 +77,7 @@ class RFRNetModel:
                     s_time = time.time()
                     self.l1_loss_val = 0.0
 
-                if (self.iter % 10000 == 0) | (
+                if (self.iter % 5000 == 0) | (
                     (self.iter % 1000 == 0) & (self.iter <= 10000)
                 ):
                     if not os.path.exists("{:s}".format(save_path)):
