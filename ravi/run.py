@@ -69,7 +69,7 @@ def run():
             mask_data.append(
                 np.repeat(np.expand_dims(np.load(mask), axis=-1), 3, axis=-1)
             )
-        print(len(images), len(masks))
+        print(len(train_data), len(mask_data))
         random.shuffle(train_data)
         random.shuffle(mask_data)
         # for image, mask in zip(images, masks):
