@@ -7,6 +7,7 @@ from glob import glob
 from model import RFRNetModel
 from torch.utils.data import DataLoader, TensorDataset
 
+
 def run():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_root", type=str)
@@ -15,7 +16,7 @@ def run():
     parser.add_argument("--result_save_path", type=str, default="results")
     parser.add_argument("--target_size", type=int, default=256)
     parser.add_argument("--mask_mode", type=int, default=1)
-    parser.add_argument("--num_iters", type=int, default=100000)
+    parser.add_argument("--num_iters", type=int, default=50000)
     parser.add_argument("--model_path", type=str, default="checkpoint/100000.pth")
     parser.add_argument("--batch_size", type=int, default=6)
     parser.add_argument("--n_threads", type=int, default=6)
@@ -29,8 +30,9 @@ def run():
     if args.test:
         model.initialize_model(args.model_path, False)
         model.cuda()
-        images, masks = np.sort(glob(args.data_root + "*.npy"))[:10], np.sort(
-            glob(args.mask_root + "*.npy")[-10:]
+        images, masks = (
+            np.sort(glob(args.data_root + "*.npy"))[-100:],
+            np.sort(glob(args.mask_root + "*.npy"))[-100:],
         )
         test_data, mask_data = [], []
         for image, mask in zip(images, masks):
@@ -40,7 +42,6 @@ def run():
             mask_data.append(
                 np.repeat(np.expand_dims(np.load(mask), axis=-1), 3, axis=-1)
             )
-        size = args.target_size
         test_data = np.array(test_data) / args.target_size
         mask_data = np.array(mask_data)
         masks_tensor = torch.tensor(mask_data, dtype=torch.float).permute(0, 3, 1, 2)
@@ -53,20 +54,21 @@ def run():
     else:
         model.initialize_model(args.model_path, True)
         model.cuda()
-        images, masks = np.sort(glob(args.data_root + "*.npy"))[:200], np.sort(
+        images, masks = np.sort(glob(args.data_root + "*.npy"))[:600], np.sort(
             glob(args.mask_root + "*.npy")
         )
+        masks = np.concatenate([masks, masks[:1000]])
         train_data, mask_data = [], []
-        #select random pairs
+        # select random pairs
         for image in images:
-            for _ in range(10):
+            for _ in range(5):
                 train_data.append(
                     np.repeat(np.expand_dims(np.load(image), axis=-1), 3, axis=-1)
                 )
         for mask in masks:
             mask_data.append(
-                    np.repeat(np.expand_dims(np.load(mask), axis=-1), 3, axis=-1)
-                )
+                np.repeat(np.expand_dims(np.load(mask), axis=-1), 3, axis=-1)
+            )
         random.shuffle(train_data)
         random.shuffle(mask_data)
         # for image, mask in zip(images, masks):
