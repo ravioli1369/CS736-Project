@@ -5,7 +5,7 @@ from utils.io import load_ckpt
 from utils.io import save_ckpt
 from torchvision.utils import make_grid
 from torchvision.utils import save_image
-from modules.RFRNet import RFRNet, VGG16FeatureExtractor
+from modules.RFRNet_Smaller_Hole import RFRNet, VGG16FeatureExtractor
 import os
 import time
 
