@@ -54,8 +54,8 @@ def run():
     else:
         model.initialize_model(args.model_path, True)
         model.cuda()
-        images, masks = np.sort(glob(args.data_root + "*.npy"))[:750], np.sort(
-            glob(args.mask_root + "*.npy")[:750]
+        images, masks = np.sort(glob(args.data_root + "*.npy"))[:1000], np.sort(
+            glob(args.mask_root + "*.npy")[:1000]
         )
         # masks = np.concatenate([masks, masks[:500]])
         train_data, mask_data = [], []
