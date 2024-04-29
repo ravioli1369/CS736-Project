@@ -5,7 +5,7 @@ from utils.io import load_ckpt
 from utils.io import save_ckpt
 from torchvision.utils import make_grid
 from torchvision.utils import save_image
-from modules.RFRNet_Smaller_Hole import RFRNet, VGG16FeatureExtractor
+from modules.RFRNet import RFRNet, VGG16FeatureExtractor
 import os
 import time
 
@@ -77,9 +77,10 @@ class RFRNetModel:
                     s_time = time.time()
                     self.l1_loss_val = 0.0
 
-                if (self.iter % 5000 == 0) | (
-                    (self.iter % 500 == 0) & (self.iter <= 10000)
-                ):
+                if (
+                    (self.iter % 5000 == 0)
+                    | ((self.iter % 500 == 0) & (self.iter <= 20000))
+                ) and not finetune:
                     if not os.path.exists("{:s}".format(save_path)):
                         os.makedirs("{:s}".format(save_path))
                     save_ckpt(
@@ -112,16 +113,17 @@ class RFRNetModel:
                 os.makedirs("{:s}/results".format(result_save_path))
             for k in range(comp_B.size(0)):
                 count += 1
-                # og_image = (
-                #     gt_images.permute(2, 3, 1, 0).cpu().detach().numpy()[:, :, :, k]
-                # )
+                og_image = (
+                    gt_images.permute(2, 3, 1, 0).cpu().detach().numpy()[:, :, :, k]
+                )
                 my_mask = masks.permute(2, 3, 1, 0).cpu().detach().numpy()[:, :, :, k]
                 my_image = comp_B.permute(2, 3, 1, 0).cpu().detach().numpy()[:, :, :, k]
                 arr_my_image = np.sum(my_image, axis=2) / 3
-                # arr_gt_image = np.sum(og_image, axis=2) / 3
+                arr_gt_image = np.sum(og_image, axis=2) / 3
                 file_path = "{:s}/results/img_{:d}.npy".format(result_save_path, count)
                 np.save(file_path, arr_my_image)
                 np.save(file_path.replace("img_", "mask_"), my_mask)
+                np.save(file_path.replace("img_", "gt_"), arr_gt_image)
 
                 # count += 1
                 # grid = make_grid(comp_B[k : k + 1])
