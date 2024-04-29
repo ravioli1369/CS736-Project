@@ -6,3 +6,4 @@ __pycache__/
 *00.pth
 *final.pth
 results/
+.vscode/settings.json
