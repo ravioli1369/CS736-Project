@@ -55,13 +55,13 @@ def run():
         model.initialize_model(args.model_path, True)
         model.cuda()
         images, masks = np.sort(glob(args.data_root + "*.npy"))[:750], np.sort(
-            glob(args.mask_root + "*.npy")[:1500]
+            glob(args.mask_root + "*.npy")[:750]
         )
         # masks = np.concatenate([masks, masks[:500]])
         train_data, mask_data = [], []
         # select random pairs
         for image in images:
-            for _ in range(2):
+            for _ in range(1):
                 train_data.append(
                     np.repeat(np.expand_dims(np.load(image), axis=-1), 3, axis=-1)
                 )
@@ -70,8 +70,8 @@ def run():
                 np.repeat(np.expand_dims(np.load(mask), axis=-1), 3, axis=-1)
             )
         print(len(train_data), len(mask_data))
-        random.shuffle(train_data)
-        random.shuffle(mask_data)
+        # random.shuffle(train_data)
+        # random.shuffle(mask_data)
         # for image, mask in zip(images, masks):
         #     train_data.append(
         #         np.repeat(np.expand_dims(np.load(image), axis=-1), 3, axis=-1)
