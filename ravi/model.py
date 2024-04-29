@@ -78,8 +78,8 @@ class RFRNetModel:
                     self.l1_loss_val = 0.0
 
                 if (
-                    (self.iter % 5000 == 0)
-                    | ((self.iter % 500 == 0) & (self.iter <= 20000))
+                    (self.iter % 10000 == 0)
+                    | ((self.iter % 1000 == 0) & (self.iter <= 20000))
                 ) and not finetune:
                     if not os.path.exists("{:s}".format(save_path)):
                         os.makedirs("{:s}".format(save_path))
