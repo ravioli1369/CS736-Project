@@ -16,7 +16,7 @@ for i, model in enumerate(models):
     except:
         n = 2
 
-    path = f"checkpoint/{sys.argv[1]}/finetune/{num_iters}+{num_iters//n}/"
+    path = f"checkpoint/{sys.argv[1]}/finetune/{num_iters}+{int(num_iters//n)}/"
     if not os.path.exists(path + "g_final.pth"):
         cmd = f"python run.py --data_root data/SARS-COV-2-Ct-Scan-Dataset/resized/non-COVID/ --mask_root data/SARS-COV-2-Ct-Scan-Dataset/resized/masks/{sys.argv[2]}/ --finetune --model_path {model} --num_iters {int(num_iters + num_iters//n)} --model_save_path {path}"
         print(cmd)
