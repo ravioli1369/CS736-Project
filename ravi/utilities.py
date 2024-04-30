@@ -45,10 +45,13 @@ def calculate_ssim(ground_truth, prediction, mask):
     # Compute SSIM between two images only in the masked region
     # masked_ground_truth = ground_truth * mask
     # score_baseline = structural_similarity(masked_ground_truth, ground_truth,  data_range=np.max(ground_truth) - np.min(ground_truth))
-    ground_truth = ground_truth[np.where(mask == 0)]
-    prediction = prediction[np.where(mask == 0)]
+    # ground_truth = ground_truth[np.where(mask == 0)]
+    # prediction = prediction[np.where(mask == 0)]
     score = structural_similarity(
-        ground_truth, prediction, data_range=np.max(prediction) - np.min(prediction)
+        ground_truth,
+        prediction,
+        data_range=np.max(prediction) - np.min(prediction),
+        mask=mask,
     )
     # normalized_score = (score-score_baseline)/(1-score_baseline)
     return score
