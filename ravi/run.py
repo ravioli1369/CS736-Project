@@ -31,8 +31,8 @@ def run():
         model.initialize_model(args.model_path, False)
         model.cuda()
         images, masks = (
-            np.sort(glob(args.data_root + "*.npy"))[-100:],
-            np.sort(glob(args.mask_root + "*.npy"))[-100:],
+            np.sort(glob(args.data_root + "*.npy"))[-400:],
+            np.sort(glob(args.mask_root + "*.npy"))[-400:],
         )
         test_data, mask_data = [], []
         for image, mask in zip(images, masks):
