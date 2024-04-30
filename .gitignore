@@ -5,5 +5,5 @@ ravi/data/SARS-COV-2-Ct-Scan-Dataset/resized/
 __pycache__/
 *00.pth
 *final.pth
-results/
+*.npy
 .vscode/settings.json
