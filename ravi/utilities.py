@@ -23,21 +23,28 @@ def create_array_with_zeros(n, hole_ratio, number_of_holes=1):
 def create_strip_mask(n, thickness, orientation=None, number=1):
     # Create an array of ones
     arr = np.ones((n, n))
-    for _ in range(number):
-        if orientation == "H":
+    if (number > 1) and (orientation not in ["H", "V"]):
+        for _ in range(number // 2):
             start_row = np.random.randint(0, n - thickness + 1)
             arr[start_row : start_row + thickness, :] = 0
-        elif orientation == "V":
             start_col = np.random.randint(0, n - thickness + 1)
             arr[:, start_col : start_col + thickness] = 0
-        else:
-            coin_flip = bool(np.random.randint(0, 2))
-            if coin_flip:
+    else:
+        for _ in range(number):
+            if orientation == "H":
                 start_row = np.random.randint(0, n - thickness + 1)
                 arr[start_row : start_row + thickness, :] = 0
-            else:
+            elif orientation == "V":
                 start_col = np.random.randint(0, n - thickness + 1)
                 arr[:, start_col : start_col + thickness] = 0
+            else:
+                coin_flip = bool(np.random.randint(0, 2))
+                if coin_flip:
+                    start_row = np.random.randint(0, n - thickness + 1)
+                    arr[start_row : start_row + thickness, :] = 0
+                else:
+                    start_col = np.random.randint(0, n - thickness + 1)
+                    arr[:, start_col : start_col + thickness] = 0
     return arr
 
 
