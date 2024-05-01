@@ -1,5 +1,27 @@
+import os
 import numpy as np
+from glob import glob
+from matplotlib import pyplot as plt
 from skimage.metrics import structural_similarity
+import matplotlib
+
+params = {
+    "text.usetex": True,
+    "font.family": "serif",
+    "xtick.minor.visible": True,
+    "ytick.minor.visible": True,
+    "xtick.top": True,
+    "ytick.left": True,
+    "ytick.right": True,
+    "xtick.direction": "out",
+    "ytick.direction": "out",
+    "xtick.minor.size": 2.5,
+    "xtick.major.size": 5,
+    "ytick.minor.size": 2.5,
+    "ytick.major.size": 5,
+    "axes.axisbelow": True,
+}
+matplotlib.rcParams.update(params)
 
 
 def create_array_with_zeros(n, hole_ratio, number_of_holes=1):
@@ -82,3 +104,26 @@ def calculate_rmse(ground_truth, prediction, mask):
     prediction = prediction[np.where(mask == 0)]
     rmse = np.sqrt(np.mean((ground_truth - prediction) ** 2))
     return rmse
+
+
+def imshow_plots(model_path, counter_stop=10):
+    gts = np.sort(glob(os.path.dirname(model_path) + "/results/gt_*.npy"))
+    fakes = np.sort(glob(os.path.dirname(model_path) + "/results/img_*.npy"))
+    masks = np.sort(glob(os.path.dirname(model_path) + "/results/mask_*.npy"))
+    counter = 0
+    for gt, fake, mask in zip(gts, fakes, masks):
+        fake = np.load(fake)
+        gt = np.load(gt)
+        mask = np.ma.make_mask(np.load(mask)[:, :, 0])
+        fig, ax = plt.subplots(1, 3, figsize=(9, 3), dpi=300, sharey=True)
+        ax[0].imshow(fake, cmap="gray")
+        ax[0].set_title("Inpainted", y=1.02)
+        ax[1].imshow(gt, cmap="gray")
+        ax[1].set_title("Ground Truth", y=1.02)
+        img = ax[2].imshow((fake - gt), cmap="gray")
+        ax[2].set_title("Difference", y=1.02)
+        cax = fig.add_axes([0.92, 0.15, 0.01, 0.69])
+        plt.colorbar(img, cax=cax)
+        counter += 1
+        if counter > counter_stop:
+            break
