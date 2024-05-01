@@ -76,14 +76,25 @@ def calculate_ssim(ground_truth, prediction, mask):
     # score_baseline = structural_similarity(masked_ground_truth, ground_truth,  data_range=np.max(ground_truth) - np.min(ground_truth))
     # ground_truth = ground_truth[np.where(mask == 0)]
     # prediction = prediction[np.where(mask == 0)]
-    score = structural_similarity(
+    # score = structural_similarity(
+    #     ground_truth,
+    #     prediction,
+    #     data_range=np.max(prediction) - np.min(prediction),
+    #     mask=mask,
+    # )
+    mask = 1 - mask
+    _, smap = structural_similarity(
         ground_truth,
         prediction,
-        data_range=np.max(prediction) - np.min(prediction),
-        mask=mask,
+        data_range=1,
+        gaussian_weights=True,
+        sigma=4,
+        full=True,
     )
+    smap_masked = np.multiply(smap, mask)
+    return np.sum(smap_masked) / np.sum(mask)
     # normalized_score = (score-score_baseline)/(1-score_baseline)
-    return score
+    # return score
 
 
 def calculate_psnr(ground_truth, prediction, mask):
