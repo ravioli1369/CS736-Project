@@ -1,7 +1,7 @@
 # **Recurrent Feature Reasoning for Medical Image Inpainting**
 The repository containing the code and results for the CS736 (Medical Image Computing) course at IIT Bombay in Spring 2023.
 
-The following paper was followed:
+The paper followed:
 
 ```
 @INPROCEEDINGS {9156533,
