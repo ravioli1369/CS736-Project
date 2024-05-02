@@ -1,3 +1,9 @@
+
+Here are the basic commands to train and test various experiments. The data can be downloaded from kaggle and 
+can use make_images.ipynb to convert data to npy files of appropriate size. Masks can be made with make_masks.py.
+
+For testing, the exact model that will be used for the testing should be changed from within run.py
+
 first run:
 
 
