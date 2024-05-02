@@ -18,7 +18,7 @@ def create_array_with_zeros(n, k):
     return arr
 
 size = 256
-hole_ratio = 8
+hole_ratio = 6
 num_masks = 1200
 
 output = []
@@ -29,7 +29,7 @@ for i in range(num_masks):
 
 output = np.array(output)
 
-np.save("mask_file_small",output)
+np.save(f"mask_file_small_{hole_ratio}",output)
 
 
 
